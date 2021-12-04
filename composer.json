@@ -10,7 +10,7 @@
     ],
     "homepage": "https://github.com/ibrcan/Ivd",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "authors": [
         {
             "name": "İbrahim CAN",
@@ -37,5 +37,4 @@
         "test": "phpunit --debug"
     },
     "minimum-stability": "stable",
-    "prefer-stable" : true
 }
