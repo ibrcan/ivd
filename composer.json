@@ -1,0 +1,40 @@
+{
+    "name": "ibrcan/Ivd",
+    "description": "Ivd",
+    "keywords": [
+        "ivd",
+        "interaktif",
+        "e-fatura",
+        "e-arşiv",
+        "earşiv"
+    ],
+    "homepage": "https://github.com/ibrcan/Ivd",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "İbrahim CAN",
+            "email": "ibrcan@gmail.com",
+            "homepage": "http://ibrahimcan.com.tr"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9 <=8.4.15",
+        "guzzlehttp/guzzle": "^6.5|^7.0",
+        "ramsey/uuid": "^3.7|^4.0",
+        "kwn/number-to-words": "^1.9",
+        "mpdf/mpdf": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ibrcan\\Ivd\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --debug"
+    },
+    "minimum-stability": "stable"
+}
