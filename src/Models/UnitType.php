@@ -1,6 +1,6 @@
 <?php
 
-namespace ibrcan\Ivd\Models;
+namespace ibrcan\ivd\Models;
 
 final class UnitType {
     const GUN = "DAY";

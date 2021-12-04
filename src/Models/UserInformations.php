@@ -1,8 +1,8 @@
 <?php
 
-namespace ibrcan\Ivd\Models;
+namespace ibrcan\ivd\Models;
 
-use furkankadioglu\Ivd\Traits\Exportable;
+use furkankadioglu\ivd\Traits\Exportable;
 
 class UserInformations {
 

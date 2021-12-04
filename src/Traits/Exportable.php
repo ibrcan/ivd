@@ -1,6 +1,6 @@
 <?php
 
-namespace ibrcan\eFatura\Traits;
+namespace ibrcan\ivd\Traits;
 
 trait Exportable {
 

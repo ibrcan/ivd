@@ -1,6 +1,6 @@
 {
-    "name": "ibrcan/Ivd",
-    "description": "Ivd",
+    "name": "ibrcan/ivd",
+    "description": "ivd",
     "keywords": [
         "ivd",
         "interaktif",
@@ -8,7 +8,7 @@
         "e-arşiv",
         "earşiv"
     ],
-    "homepage": "https://github.com/ibrcan/Ivd",
+    "homepage": "https://github.com/ibrcan/ivd",
     "license": "MIT",
     "version": "1.0.2",
     "authors": [
@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ibrcan\\Ivd\\": "src/"
+            "ibrcan\\ivd\\": "src/"
         }
     },
     "scripts": {

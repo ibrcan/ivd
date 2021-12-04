@@ -1,9 +1,9 @@
 <?php
 
-namespace ibrcan\Ivd\Models;
+namespace ibrcan\ivd\Models;
 
-use ibrcan\Ivd\Exceptions\ValidatorException;
-use ibrcan\Ivd\Traits\Exportable;
+use ibrcan\ivd\Exceptions\ValidatorException;
+use ibrcan\ivd\Traits\Exportable;
 use NumberToWords\NumberToWords;
 use Ramsey\Uuid\Uuid;
 
