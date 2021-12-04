@@ -5,11 +5,6 @@ use Exception;
 use ibrcan\ivd\Exceptions\ApiException;
 use ibrcan\ivd\Exceptions\NullDataException;
 use ibrcan\ivd\Exceptions\TestEnvironmentException;
-use ibrcan\ivd\Models\Invoice;
-use ibrcan\ivd\Models\UserInformations;
-use GuzzleHttp\Client;
-use Ramsey\Uuid\Uuid;
-use Mpdf\Mpdf;
 
 class InvoiceManager
 {
@@ -17,7 +12,6 @@ class InvoiceManager
      * Api Urls
      */
     const BASE_URL = "https://ivd.gib.gov.tr/";
-    const TEST_URL = "https://earsivportaltest.efatura.gov.tr";
 
     /**
      * Api Paths
@@ -33,6 +27,9 @@ class InvoiceManager
      */
     protected $username;
 
+    protected $imageKod="YBG5G9";
+    protected $imageID="34pcejkwqg1v1k00";
+
     /**
      * Password field for auth
      *
@@ -40,12 +37,6 @@ class InvoiceManager
      */
     protected $password;
 
-    /**
-     * Guzzle client variable
-     *
-     * @var GuzzleHttp\Client
-     */
-    protected $client;
 
     /**
      * Session Token
@@ -53,20 +44,6 @@ class InvoiceManager
      * @var string
      */
     protected $token;
-
-    /**
-     * Language
-     *
-     * @var string
-     */
-    protected $language = "TR";
-
-    /**
-     * Current targeted invoice
-     *
-     * @var furkankadioglu\v2\Models\Invoice
-     */
-    protected $invoice;
 
     /**
      * Referrer variable
@@ -85,14 +62,14 @@ class InvoiceManager
     /**
      * Invoices
      *
-     * @var array furkankadioglu\v2\Models\Invoice
+     * @var array ibrcan\ivd\Models\Invoice
      */
     protected $invoices = [];
 
     /**
      * User Informations
      *
-     * @var furkankadioglu\v2\Models\UserInformations
+     * @var ibrcan\ivd\Models\UserInformations
      */
     protected $userInformations;
 
@@ -120,9 +97,6 @@ class InvoiceManager
         "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36", // Dummy UA
     ];
 
-    /**
-     * Base construct method for guzzle and connection settings
-     */
     public function __construct()
     {
         $this->referrer = $this->getBaseUrl() . self::REFERRER_PATH;
@@ -135,7 +109,7 @@ class InvoiceManager
      * Setter function for username
      *
      * @param string $username
-     * @return furkankadioglu\v2\InvoiceManager
+     * @return ibrcan\ivd\InvoiceManager
      */
     public function setUsername($username)
     {
@@ -147,7 +121,7 @@ class InvoiceManager
      * Set a debug mode
      *
      * @param boolean $status
-     * @return furkankadioglu\v2\InvoiceManager
+     * @return ibrcan\ivd\InvoiceManager
      */
     public function setDebugMode($status)
     {
@@ -159,7 +133,7 @@ class InvoiceManager
      * Setter function for password
      *
      * @param string $password
-     * @return furkankadioglu\v2\InvoiceManager
+     * @return ibrcan\ivd\InvoiceManager
      */
     public function setPassword($password)
     {
@@ -193,7 +167,7 @@ class InvoiceManager
      *
      * @param string $username
      * @param string $password
-     * @return furkankadioglu\v2\InvoiceManager
+     * @return ibrcan\ivd\InvoiceManager
      */
     public function setCredentials($username, $password)
     {
@@ -206,7 +180,7 @@ class InvoiceManager
      * Setter function for token
      *
      * @param string $token
-     * @return furkankadioglu\v2\InvoiceManager
+     * @return ibrcan\ivd\InvoiceManager
      */
     public function setToken($token)
     {
@@ -218,7 +192,7 @@ class InvoiceManager
      * Getter function for token
      *
      * @param string $token
-     * @return furkankadioglu\v2\InvoiceManager
+     * @return ibrcan\ivd\InvoiceManager
      */
     public function getToken($token)
     {
@@ -228,7 +202,7 @@ class InvoiceManager
     /**
      * Connect with credentials
      *
-     * @return furkankadioglu\v2\InvoiceManager
+     * @return ibrcan\ivd\InvoiceManager
      */
     public function connect()
     {
@@ -293,15 +267,13 @@ class InvoiceManager
             "rtype" => "json",
             "userid" => $this->username,
             "sifre" => $this->password,
-            "dk" => "YBG5G9",
+            "dk" => $this->imageKod,
             "parola" => "maliye",
             "controlCaptcha" =>true,
-            "imageID" =>"34pcejkwqg1v1k00"
+            "imageID" =>$this->imageID
         ];
         $body = $this->sendRequestAndGetBody(self::TOKEN_PATH, $parameters, []);
-        //print_r($body);
         $this->checkError($body);
-
         return $this->token = $body["token"];
     }
 
@@ -337,44 +309,7 @@ class InvoiceManager
         }
     }
 
-    /**
-     * Setter function for invoice
-     *
-     * @param Invoice $invoice
-     * @return furkankadioglu\v2\InvoiceManager
-     */
-    public function setInvoice(Invoice $invoice)
-    {
-        $this->invoice = $invoice;
-        return $this;
-    }
 
-    /**
-     * Getter function for invoice
-     *
-     * @return furkankadioglu\v2\Models\Invoice
-     */
-    public function getInvoice()
-    {
-        return $this->invoice;
-    }
-
-    /**
-     * Getter function for invoices
-     *
-     * @return array furkankadioglu\v2\Models\Invoice
-     */
-    public function getInvoices()
-    {
-        return $this->invoices;
-    }
-
-    /**
-     * Get company name from tax number via api
-     *
-     * @param string $taxNr
-     * @return array
-     */
     public function getCompanyInfo($taxNr)
     {
         $parameters = [
@@ -391,13 +326,7 @@ class InvoiceManager
         return $body;
     }
 
-    /**
-     * Get invoices from api
-     *
-     * @param string $startDate
-     * @param string $endDate
-     * @return array
-     */
+
      public function getInvoicesFromAPI($startDate, $endDate)
      {
          $parameters = [
