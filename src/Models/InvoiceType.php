@@ -1,6 +1,6 @@
 <?php
 
-namespace furkankadioglu\Ivd\Models;
+namespace ibrcan\Ivd\Models;
 
 class InvoiceType {
     const SATIS = "SATIS";

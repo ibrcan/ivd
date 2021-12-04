@@ -1,5 +1,5 @@
 <?php
-namespace furkankadioglu\Ivd\Exceptions;
+namespace ibrcan\Ivd\Exceptions;
 
 use Exception;
 

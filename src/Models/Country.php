@@ -1,6 +1,6 @@
 <?php
 
-namespace furkankadioglu\Ivd\Models;
+namespace ibrcan\Ivd\Models;
 
 final class Country {
 

@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-namespace furkankadioglu\eFatura\Traits;
+namespace ibrcan\eFatura\Traits;
 
 trait Exportable {
 
