@@ -5,8 +5,9 @@ use Exception;
 use ibrcan\ivd\Exceptions\ApiException;
 use ibrcan\ivd\Exceptions\NullDataException;
 use ibrcan\ivd\Exceptions\TestEnvironmentException;
-
-class InvoiceManager
+use GuzzleHttp\Client;
+use Ramsey\Uuid\Uuid;
+class Interaktif
 {
     /**
      * Api Urls
@@ -305,7 +306,11 @@ class InvoiceManager
     private function checkError($jsonData)
     {
         if (isset($jsonData["error"])) {
+          if (isset($jsonData["messages"][0]["text"])) {
+            throw new ApiException("Sunucu taraflı bir hata oluştu!  Hata Mesajı:".$jsonData["messages"][0]["text"], 0, null, $jsonData);
+          } else {
             throw new ApiException("Sunucu taraflı bir hata oluştu!", 0, null, $jsonData);
+          }
         }
     }
 
@@ -354,10 +359,10 @@ class InvoiceManager
              "token" => $this->token,
              "jp" => '{"faturaTarihBas":"' . $startDate . '","textBox":"","faturaTarihSon":"' . $endDate . '"}'
          ];
-         print_r($parameters);
+         //print_r($parameters);
 
          $body = $this->sendRequestAndGetBody(self::DISPATCH_PATH, $parameters);
-         print_r($body);
+         //print_r($body);
          $this->checkError($body);
 
          // Array tipinden verilen tarih aralığında yer alan faturalar dönüyor
