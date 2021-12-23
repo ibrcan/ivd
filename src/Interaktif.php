@@ -293,7 +293,7 @@ class Interaktif
             "jp" => '{}'
         ];
 
-        $body = $this->sendRequestAndGetBody(self::TOKEN_PATH, $parameters, []);
+        $body = $this->sendRequestAndGetBody(self::DISPATCH_PATH, $parameters, []);
         $this->checkError($body);
         $this->token = null;
         return true;
