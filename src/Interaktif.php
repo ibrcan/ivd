@@ -286,9 +286,11 @@ class Interaktif
     public function logOutFromAPI()
     {
         $parameters = [
-            "assoscmd" => "logout",
-            "rtype" => "json",
+            "cmd" => "kullaniciBilgileriService_logout",
+            "callid" => Uuid::uuid1()->toString(),
+            "pageName" => "PG_MAIN_DYNAMIC",
             "token" => $this->token,
+            "jp" => '{}'
         ];
 
         $body = $this->sendRequestAndGetBody(self::TOKEN_PATH, $parameters, []);
